@@ -1,0 +1,49 @@
+# runs:
+#   using: "composite"
+#   steps:
+#     - run: echo Hello ${{ inputs.who-to-greet }}.
+#       shell: bash
+#     - id: random-number-generator
+#       run: echo "random-number=$(echo $RANDOM)" >> $GITHUB_OUTPUT
+#       shell: bash
+#     - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
+#       shell: bash
+#     - run: goodbye.sh
+#       shell: bash
+
+name: "Setup ActiveState CLI"
+description: "Sets up the ActiveState CLI in your GitHub Actions workflow."
+inputs:
+  version:
+    description: "Version of the state CLI to install"
+    required: false
+  channel:
+    description: "Channel to download the state CLI from"
+    required: false
+  # activestate-api-key:
+  #   description: "API key used to authenticate to the ActiveState platform"
+  #   required: true
+runs:
+  using: "composite"
+  steps:
+  - name: "Install state CLI"
+    shell: "bash"
+    run: |
+      installArgs=""
+      if [ "${{ inputs.version }}" ]; then
+        installArgs="-v ${{ inputs.version }} "
+      fi
+      if [ "${{ inputs.channel }}" ]; then
+        installArgs="${installArgs}-b ${{ inputs.channel }}"
+      fi
+      if [ "$RUNNER_OS" == "Linux" ]; then
+        sh <(curl -q https://platform.activestate.com/dl/cli/install.sh) $installArgs
+      elif [ "$RUNNER_OS" == "Windows" ]; then
+        powershell -Command "& $([scriptblock]::Create((New-Object Net.WebClient).DownloadString('https://platform.activestate.com/dl/cli/w19880w01/install.ps1')))" $installArgs
+      else
+        echo "$RUNNER_OS not supported"
+        exit 1
+      fi
+
+
+
