@@ -21,10 +21,10 @@ jobs:
     - uses: ./
     - name: run help command
       run: state --help
-  test-windows-latest:
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v3
-    - uses: ./
-    - name: run help command
-      run: state --help
+  # test-windows-latest:
+  #   runs-on: windows-latest
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #   - uses: ./
+  #   - name: run help command
+  #     run: state --help
