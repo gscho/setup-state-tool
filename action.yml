@@ -30,7 +30,7 @@ runs:
     if: runner.os == 'Linux' || runner.os == 'macOS'
     shell: "bash"
     run: |
-      installArgs=""
+      installArgs="-n"
       if [ "${{ inputs.version }}" ]; then
         installArgs="-v ${{ inputs.version }} "
       fi
