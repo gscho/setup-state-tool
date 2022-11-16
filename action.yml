@@ -40,6 +40,8 @@ runs:
       curl -q https://platform.activestate.com/dl/cli/install.sh -o install.sh
       chmod +x ./install.sh
       ./install.sh $installArgs
+      state --help
+      which state
 
 
 
