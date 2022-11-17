@@ -1,16 +1,3 @@
-# runs:
-#   using: "composite"
-#   steps:
-#     - run: echo Hello ${{ inputs.who-to-greet }}.
-#       shell: bash
-#     - id: random-number-generator
-#       run: echo "random-number=$(echo $RANDOM)" >> $GITHUB_OUTPUT
-#       shell: bash
-#     - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
-#       shell: bash
-#     - run: goodbye.sh
-#       shell: bash
-
 name: "Setup ActiveState CLI"
 description: "Sets up the ActiveState CLI in your GitHub Actions workflow."
 inputs:
@@ -20,6 +7,7 @@ inputs:
   channel:
     description: "Channel to download the state CLI from"
     required: false
+    default: "release"
   # activestate-api-key:
   #   description: "API key used to authenticate to the ActiveState platform"
   #   required: true
@@ -28,20 +16,15 @@ runs:
   steps:
   - name: "Install state CLI"
     if: runner.os == 'Linux' || runner.os == 'macOS'
-    shell: "bash"
     run: |
-      installArgs="-n"
+      installArgs=""
       if [ "${{ inputs.version }}" ]; then
         installArgs="-v ${{ inputs.version }} "
       fi
-      if [ "${{ inputs.channel }}" ]; then
-        installArgs="${installArgs}-b ${{ inputs.channel }}"
-      fi
-      curl -q https://platform.activestate.com/dl/cli/install.sh -o install.sh
-      chmod +x ./install.sh
-      ./install.sh $installArgs
-      state --help
-      which state
+      CHANNEL="${{ inputs.channel }}"
+      installArgs="${installArgs}-b $CHANNEL"
+      sh <(curl -q https://platform.activestate.com/dl/cli/install.sh) $installArgs
+      export PATH="$HOME/.local/ActiveState/StateTool/$CHANNEL/bin:$PATH"
 
 
 
