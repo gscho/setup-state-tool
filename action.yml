@@ -16,6 +16,7 @@ runs:
   steps:
   - name: "Install state CLI"
     if: runner.os == 'Linux' || runner.os == 'macOS'
+    shell: "bash"
     run: |
       installArgs=""
       if [ "${{ inputs.version }}" ]; then
