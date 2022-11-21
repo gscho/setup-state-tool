@@ -14,7 +14,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-  - name: "Install state CLI"
+  - name: "Install state CLI (Linux & Darwin)"
     if: runner.os == 'Linux' || runner.os == 'macOS'
     shell: "bash"
     run: |
@@ -24,8 +24,19 @@ runs:
       fi
       CHANNEL="${{ inputs.channel }}"
       installArgs="${installArgs}-b $CHANNEL"
-      sh <(curl -q https://platform.activestate.com/dl/cli/install.sh) $installArgs
+      sh <(curl -q https://platform.activestate.com/dl/cli/install.sh) -n $installArgs
       ln -s "$HOME/.local/ActiveState/StateTool/$CHANNEL/bin/state" /usr/local/bin/state
-
-
-
+  - name: "Install state CLI (Windows)"
+    if: runner.os == 'Windows'
+    shell: "pwsh"
+    run: |
+      $installArgs = ""
+      if ( "${{ inputs.version }}" )
+      {
+        $installArgs = "-v ${{ inputs.version }} "
+      }
+      $CHANNEL = "${{ inputs.channel }}"
+      $installArgs = "${installArgs}-b $CHANNEL"
+      (New-Object Net.WebClient).DownloadFile("https://platform.activestate.com/dl/cli/install.ps1", "install.ps1"); 
+      Invoke-Expression -Command ".\install.ps1 -n $installArgs"
+      echo "$env:LOCALAPPDATA\ActiveState\StateTool\$CHANNEL\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
