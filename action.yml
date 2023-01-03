@@ -11,6 +11,9 @@ inputs:
   activestate-api-key:
     description: "API key used to authenticate to the ActiveState platform"
     required: true
+branding:
+  icon: 'download-cloud'
+  color: 'red'
 runs:
   using: "composite"
   steps:
