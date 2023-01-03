@@ -7,7 +7,7 @@ This makes it easy to install projects from the ActiveState platform during a Gi
 ## Inputs
 
 | name  | type  | default  | description  | required  |
-|---|---|---|---|
+|---|---|---|---|---|
 | version  | string  | latest  | Version of the State Tool CLI to install  | false  |
 | channel  | string  | release  | Channel to download the State Tool CLI from  | false  |
 | activestate-api-key  | string  |   | API key used to authenticate to the ActiveState platform  | true  |
