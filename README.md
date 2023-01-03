@@ -1,6 +1,6 @@
 # setup-state-tool
 
-An action to install the [state tool](https://docs.activestate.com/platform/state/) and add it to the `$GITHUB_PATH`.
+An action to install the ActiveState [State Tool](https://docs.activestate.com/platform/state/) CLI and add it to the `$GITHUB_PATH`.
 
 This makes it easy to install projects from the ActiveState platform during a GitHub actions workflow.
 
@@ -8,8 +8,8 @@ This makes it easy to install projects from the ActiveState platform during a Gi
 
 | name  | type  | default  | description  | required  |
 |---|---|---|---|
-| version  | string  | latest  | Version of the state CLI to install  | false  |
-| channel  | string  | release  | Channel to download the state CLI from  | false  |
+| version  | string  | latest  | Version of the State Tool CLI to install  | false  |
+| channel  | string  | release  | Channel to download the State Tool CLI from  | false  |
 | activestate-api-key  | string  |   | API key used to authenticate to the ActiveState platform  | true  |
 
 ## Examples
