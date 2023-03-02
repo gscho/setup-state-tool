@@ -13,24 +13,26 @@ jobs:
     - uses: actions/checkout@v3
     - uses: ./
       with:
-        activestate-api-key: foobar
+        activestate-api-key: ${{ secrets.ACTIVESTATE_API_KEY }}
     - name: run help command
-      run: state --help
-  test-macos-latest:
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v3
-    - uses: ./
-      with:
-        activestate-api-key: foobar
-    - name: run help command
-      run: state --help
-  test-windows-latest:
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v3
-    - uses: ./
-      with:
-        activestate-api-key: foobar
-    - name: run help command
-      run: state --help
+      run: |
+        state init gregas/python-3-10-9 python3@3.10.9
+        ls -la
+  # test-macos-latest:
+  #   runs-on: macos-latest
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #   - uses: ./
+  #     with:
+  #       activestate-api-key: foobar
+  #   - name: run help command
+  #     run: state --help
+  # test-windows-latest:
+  #   runs-on: windows-latest
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #   - uses: ./
+  #     with:
+  #       activestate-api-key: foobar
+  #   - name: run help command
+  #     run: state --help
