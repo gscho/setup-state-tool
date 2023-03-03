@@ -8,6 +8,10 @@ inputs:
     description: "Channel to download the State Tool CLI from"
     required: false
     default: "release"
+  opt-in:
+    description: "Flag to opt-in to unstable features"
+    required: false
+    default: "false"
   activestate-api-key:
     description: "API key used to authenticate to the ActiveState platform"
     required: true
@@ -30,6 +34,7 @@ runs:
       sh <(curl -q https://platform.activestate.com/dl/cli/install.sh) $installArgs
       echo "$HOME/.local/ActiveState/StateTool/$CHANNEL/bin" >> $GITHUB_PATH
       echo "ACTIVESTATE_API_KEY=${{ inputs.activestate-api-key }}" >> $GITHUB_ENV
+      "$HOME/.local/ActiveState/StateTool/$CHANNEL/bin/state" config set optin.unstable ${{ inputs.opt-in }}
   - name: "Install State Tool CLI (Windows)"
     if: runner.os == 'Windows'
     shell: "pwsh"
@@ -45,3 +50,5 @@ runs:
       Invoke-Expression -Command ".\install.ps1 -n $installArgs"
       echo "$env:LOCALAPPDATA\ActiveState\StateTool\$CHANNEL\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
       echo "ACTIVESTATE_API_KEY=${{ inputs.activestate-api-key }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+      $stateConfigCmd = "$env:LOCALAPPDATA\ActiveState\StateTool\$CHANNEL\bin\state config set optin.unstable ${{ inputs.opt-in }}"
+      Invoke-Expression $stateConfigCmd
